@@ -49,6 +49,8 @@ def download_dir(subject, target_dir, verbose=True, progress_callback=None):
     subject_dir = os.path.join(target_dir, subject.label)
     if not os.path.isdir(subject_dir):
         os.mkdir(subject_dir)
+    else:
+        return
 
     number_of_experiments = len(subject.experiments)
 
@@ -102,7 +104,10 @@ def download_oasis_scans(project_id, directory_name, xnat_central_username, scan
     subjects = session.projects[project_id].subjects
 
     for subject in subjects.values():
-        download_dir(subject, directory_name, verbose=True, progress_callback=None)
+        try:
+            download_dir(subject, directory_name, verbose=True, progress_callback=None)
+        except xnat.exceptions.XNATResponseError:
+            continue
 
 
 def main():
@@ -120,3 +125,7 @@ def main():
 
     download_oasis_scans(args.project_id, args.directory_name, args.xnat_central_username, args.scan_type,
                          args.reset_credentials)
+
+
+if __name__ == '__main__':
+    main()
