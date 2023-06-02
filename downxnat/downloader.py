@@ -4,7 +4,7 @@ import json
 import os
 import ssl
 
-import keyring
+# import keyring
 import xnat
 
 
@@ -75,25 +75,27 @@ def download_oasis_scans(project_id, directory_name, xnat_central_username, scan
     ssl_context.check_hostname = False
     ssl_context.verify_mode = ssl.CERT_NONE
 
-    if reset_credentials:
-        # Delete the stored password from the keyring
-        keyring.delete_password("OASIS", xnat_central_username)
-        keyring.delete_password("OASIS", "username")
-
-    # Check if the password is already stored in the keyring
-    password = keyring.get_password("OASIS", xnat_central_username)
-
-    # If the password is not stored or reset is requested, prompt the user for the password
-    if not password or reset_credentials:
-        password = getpass.getpass("Enter your password for accessing OASIS data on XNAT Central:")
-
-        # Store the password in the keyring
-        keyring.set_password("OASIS", xnat_central_username, password)
-    keyring.set_password("OASIS", "username", xnat_central_username)
+    # if reset_credentials:
+    #     # Delete the stored password from the keyring
+    #     keyring.delete_password("OASIS", xnat_central_username)
+    #     keyring.delete_password("OASIS", "username")
+    #
+    # # Check if the password is already stored in the keyring
+    # password = keyring.get_password("OASIS", xnat_central_username)
+    #
+    # # If the password is not stored or reset is requested, prompt the user for the password
+    # if not password or reset_credentials:
+    #     password = getpass.getpass("Enter your password for accessing OASIS data on XNAT Central:")
+    #
+    #     # Store the password in the keyring
+    #     keyring.set_password("OASIS", xnat_central_username, password)
+    # keyring.set_password("OASIS", "username", xnat_central_username)
+    # password = keyring.get_password("OASIS", xnat_central_username)
+    password = input("Enter your password for accessing OASIS data on XNAT Central:")
 
     # Connect to XNAT Central
     session = xnat.connect('https://central.xnat.org', user=xnat_central_username,
-                           password=keyring.get_password("OASIS", xnat_central_username), verify=False)
+                           password=password, verify=False)
 
     # Create the directory if it doesn't exist yet
     os.makedirs(directory_name, exist_ok=True)
