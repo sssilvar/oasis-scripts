@@ -4,20 +4,18 @@ version = "0.1.0"
 description = ""
 authors = ["Santiago SILVA <16252054+sssilvar@users.noreply.github.com>"]
 readme = "README.md"
-packages = [{include = "downxnat"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
 xnat = "^0.5.1"
 keyring = "^23.13.1"
 
-
 [tool.poetry.group.dev.dependencies]
 pandas = "^2.0.2"
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
 [tool.poetry.scripts]
-xnat-download = "downxnat:downloader:main"
+xnat-download = "downxnat.downloader:main"
+
+[build-system]
+requires = ["poetry-core>=1.1.0"]
+build-backend = "poetry.core.masonry.api"

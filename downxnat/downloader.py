@@ -1,16 +1,11 @@
-import os
 import argparse
 import getpass
-import shutil
-import tempfile
-from abc import ABC
-from zipfile import ZipFile
+import json
+import os
+import ssl
 
 import keyring
-
-import ssl
 import xnat
-import json
 
 
 def is_serializable(data):
